@@ -41,8 +41,10 @@ io.on('connection', function (socket) {
   });
 
   socket.on('join', function (data) {
-    console.log(socket.handshake.headers);
-    client = { color: data.color, ip: socket.request.connection.remoteAddress };
+    client = {
+      color: data.color,
+      ip: socket.handshake.headers['x-forwarded-for']
+    };
     clients.add(client);
     io.emit('join', client);
   });
