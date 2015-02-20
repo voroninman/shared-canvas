@@ -5,15 +5,6 @@ var io = require('socket.io')(server);
 var extend = require('util')._extend;
 var clients;
 
-server.listen(5000);
-
-app.use(express.static(__dirname + '/../public/'));
-
-app.get('/reset', function(req, res) {
-  clients.clear();
-  res.end();
-});
-
 clients = {
   _list: {},
   add: function(client) {
@@ -30,6 +21,16 @@ clients = {
   }
 };
 
+var port = process.env.PORT || 5000;
+app.use(express.static(__dirname + '/../public/'));
+app.get('/reset', function(req, res) {
+  clients.clear();
+  res.end();
+});
+
+server.listen(port, function() {
+  console.log("Node app is running at localhost: " + port)
+});
 
 io.on('connection', function (socket) {
 
