@@ -41,7 +41,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('join', function (data) {
-    client = { color: data.color, ip: socket.handshake.address };
+    client = { color: data.color, ip: socket.request.connection.remoteAddress };
     clients.add(client);
     io.emit('join', client);
   });
